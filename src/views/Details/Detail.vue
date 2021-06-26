@@ -20,7 +20,6 @@
 // 公共组件
 import Scroll from "components/common/Scroll/Scroll";
 import GoodsList from "components/content/Goods/GoodsList";
-
 // 子组件
 import DetailItem from "./ChildComps/DetailItem";
 import DetailSwiper from "./ChildComps/DetailSwiper";
@@ -56,6 +55,8 @@ export default {
       recommend: [], // 存储推荐信息
       scrollTopY: [], // 用于存储相对应组件的滚动的距离
       currentIndex: 0, // 用于存储滚动时相对应的index值
+      message: '', // 存储弹框中的内容
+      isShow: false, // 存储弹窗是否进行展示
     }
   },
   components: {
@@ -96,7 +97,6 @@ export default {
      * 获取详情页的推荐数据
      */
     getRecommend().then(res => {
-      console.log(res);
       this.recommend = res.data.list
     })
   },
@@ -163,7 +163,9 @@ export default {
       product.newPrice = this.goods.nowPrice
       // 2. 要将数据放入vuex中进行保存
       // this.$store.commit('addCart', product)
-      this.$store.dispatch('addCart', product)
+      this.$store.dispatch('addCart', product).then(res => {
+        this.$toast.show(res, 1500)
+      })
     }
   }
 }

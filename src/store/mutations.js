@@ -14,6 +14,8 @@ export default  {
    * @param payload
    */
   [ADD_TO_CART](state, payload) {
+    // 默认为true，表示这个商品被选中
+    payload.checked = true
     state.cartList.push(payload)
   }
 }

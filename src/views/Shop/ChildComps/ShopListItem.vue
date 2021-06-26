@@ -2,7 +2,7 @@
   <div class="shop-item">
     <div class="check-button1">
       <div>
-        <check-button/>
+        <check-button :is-checked="cartList.checked" @click.native="changeChecked"/>
       </div>
     </div>
     <div class="shop-img">
@@ -33,6 +33,11 @@ export default {
   },
   components: {
     CheckButton
+  },
+  methods: {
+    changeChecked() {
+      this.cartList.checked = !this.cartList.checked
+    }
   }
 }
 </script>
@@ -41,6 +46,7 @@ export default {
 .shop-item {
   display: flex;
   padding: 5px;
+  border-bottom: 1px solid #ccc;
 }
 
 .shop-item .check-button1 {

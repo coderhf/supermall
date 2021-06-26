@@ -10,7 +10,7 @@ export default {
   props: {
     isChecked: {
       type: Boolean,
-      default: true
+      default: false
     }
   }
 }
