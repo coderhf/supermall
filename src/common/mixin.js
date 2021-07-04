@@ -34,12 +34,56 @@ export const backTopMixin = {
     backTop: function () {
       this.$refs.scroll.scrollTo(0, 0)
     },
+
     /**
      * 如果超过1000那就让其为true
      */
     backTopShow(position) {
       // 滚动的值超过1000就显示返回顶部的按钮
       this.scrollShow = Math.abs(position.y) > 1000
+    }
+  }
+}
+
+export const tabClickMixin = {
+  data() {
+    return {
+      tabOffsetTop: 0,  // 记录tabContent的offsetTop值
+      isTabContentFixed: false, // tabContent是否加fixed定位
+      currentType: 'pop', // 用来存储当前得type类型
+    }
+  },
+  methods: {
+    /**
+     * 通过点击获取相对应得type
+     * @param index
+     */
+    tabClick(index) {
+      this.isCategoryDetails = true
+      switch (index) {
+        case 0:
+          this.currentType = 'pop'
+          break
+        case 1:
+          this.currentType = 'new'
+          break
+        case 2:
+          this.currentType = 'sell'
+          break
+      }
+      this.$refs.tabContent1.currentIndex = index
+      this.$refs.tabContent2.currentIndex = index
+    },
+    /**
+     * 监听滚动事件
+     * */
+    contentScroll(position) {
+      this.isTabContentFixed = Math.abs(position.y) > this.tabOffsetTop
+      if (this.isTabContentFixed) {
+        this.$refs.scroll.refresh()
+      }
+      // 调用是否显示返回顶部按钮
+      this.backTopShow(position)
     }
   }
 }

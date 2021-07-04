@@ -46,11 +46,11 @@ import {
   getHomeMultidata,
   getHomeGoods
 } from "network/home";
-import {itemMixin, backTopMixin} from "common/mixin";
+import {itemMixin, backTopMixin, tabClickMixin} from "common/mixin";
 
 export default {
   name: "Home",
-  mixins: [itemMixin, backTopMixin],
+  mixins: [itemMixin, backTopMixin, tabClickMixin],
   components: {
     NavBar,
     TabControl,
@@ -80,8 +80,6 @@ export default {
         }
       },
       currentType: 'pop',
-      tabOffsetTop: 0,  // 记录tabContent的offsetTop值
-      isTabContentFixed: false, // tabContent是否加fixed定位
       saveY: 0, // 保存离开home时候的scroll滚动的值
     }
   },
@@ -141,39 +139,6 @@ export default {
       })
     },
 
-    // 页面逻辑处理相关
-    /**
-     * 通过点击tabContent来获取相应的type值
-     * */
-    tabClick(index) {
-      switch (index) {
-        case 0: {
-          this.currentType = 'pop'
-          break
-        }
-        case 1: {
-          this.currentType = 'new'
-          break
-        }
-        case 2: {
-          this.currentType = 'sell'
-          break
-        }
-      }
-      // 将index值赋给两个tabContent的currentIndex，使其一致
-      this.$refs.tabContent1.currentIndex = index
-      this.$refs.tabContent2.currentIndex = index
-    },
-    /**
-     * 滚动事件逻辑，大于1000px就显示top按钮，否则就隐藏
-     * @param position
-     */
-    contentScroll(position) {
-      // 调用方法来判断是否显示返回顶部按钮
-      this.backTopShow(position)
-      // 判断tabContent的滚动距离
-      this.isTabContentFixed = Math.abs(position.y) > this.tabOffsetTop
-    },
 
     /**
      * 上拉加载更多，向服务器请求数据
